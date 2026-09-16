@@ -1,0 +1,24 @@
+# Node
+node_modules/
+.next/
+.expo/
+dist/
+
+# Env fajlovi
+.env
+.env.local
+.env*.local
+
+# Supabase
+supabase/.branches
+supabase/.temp
+
+# OS/editor
+.DS_Store
+.vscode/
+*.log
+
+# CLAUDE fajlovi
+.claude
+CLAUDE.md
+AGENTS.md
