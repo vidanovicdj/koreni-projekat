@@ -11,7 +11,7 @@ dist/
 
 # Supabase
 supabase/.branches
-supabase/.temp
+supabase/.temp/
 
 # OS/editor
 .DS_Store
