@@ -17,7 +17,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
-import { updateMember } from '@/app/(protected)/clanovi/actions'
+import { updateMember } from '@/app/(protected)/members/actions'
 import { STATUS_LABELS, DISCOUNT_LABELS, type Member, type Ensemble } from '@/lib/types'
 
 const inputStyle = 'border-2 border-ink/30 focus-visible:ring-wine focus-visible:ring-1'

@@ -9,12 +9,12 @@ type Role = 'admin' | 'rukovodilac' | 'garderober'
 
 const NAV_ITEMS: { href: string; label: string; roles: Role[] }[] = [
   { href: '/dashboard', label: 'Dashboard', roles: ['admin', 'rukovodilac', 'garderober'] },
-  { href: '/clanovi', label: 'Članovi', roles: ['admin', 'rukovodilac', 'garderober'] },
-  { href: '/probe', label: 'Probe', roles: ['rukovodilac'] },
-  { href: '/fundus', label: 'Fundus', roles: ['garderober'] },
-  { href: '/zaduzenja', label: 'Zaduženja', roles: ['garderober'] },
-  { href: '/statistika', label: 'Statistika', roles: ['admin', 'rukovodilac'] },
-  { href: '/nalozi', label: 'Nalozi', roles: ['admin'] },
+  { href: '/members', label: 'Članovi', roles: ['admin', 'rukovodilac', 'garderober'] },
+  { href: '/rehearsals', label: 'Probe', roles: ['admin','rukovodilac'] },
+  { href: '/closet', label: 'Fundus', roles: ['garderober'] },
+  { href: '/assignments', label: 'Zaduženja', roles: ['garderober'] },
+  { href: '/statistics', label: 'Statistika', roles: ['admin', 'rukovodilac'] },
+  { href: '/accounts', label: 'Nalozi', roles: ['admin'] },
 ]
 
 export default function Sidebar({ role, name }: { role: Role; name: string }) {

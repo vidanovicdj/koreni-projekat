@@ -13,6 +13,6 @@ export async function updateMember(id: string, updates: Partial<Member>) {
     return { success: false, message: error.message }
   }
 
-  revalidatePath('/clanovi')
+  revalidatePath('/members')
   return { success: true }
 }

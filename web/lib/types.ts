@@ -36,3 +36,29 @@ export type Member = {
   category: MemberDiscount
   ensemble_id: string | null
 }
+
+export type AttendanceStatus = 'prisutan' | 'odsutan' | 'opravdano_odsutan'
+
+export const ATTENDANCE_LABELS: Record<AttendanceStatus, string> = {
+  prisutan: 'Prisutan',
+  odsutan: 'Odsutan',
+  opravdano_odsutan: 'Opravdano odsutan',
+}
+
+export type Rehearsal = {
+  id: string
+  ensemble_id: string
+  rehearsal_datetime: string
+  rehearsal_location: string | null
+  created_by: string | null
+}
+
+export type Attendance = {
+  id: string
+  member_id: string
+  rehearsal_id: string
+  attendance_status: AttendanceStatus
+  absence_reason: string | null
+  recorded_by: string | null
+  recorded_at: string
+}
