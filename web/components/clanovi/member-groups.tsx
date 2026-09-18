@@ -5,6 +5,15 @@ import { Search } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import MemberModal from './member-modal'
 import { STATUS_LABELS, type Member, type Ensemble } from '@/lib/types'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+
+const filterInputStyle = 'border-2 border-ink/30 focus-visible:ring-wine focus-visible:ring-1'
 
 const STATUS_COLOR: Record<string, string> = {
   aktivan: 'bg-sage/15 text-sage border-sage/30',
@@ -21,6 +30,14 @@ export default function MemberGroups({
 }) {
   const [selected, setSelected] = useState<Member | null>(null)
   const [open, setOpen] = useState(false)
+  const [filter, setFilter] = useState('sve')
+
+const filterItems = [
+  { label: 'Sve grupe', value: 'sve' },
+  ...ensembles.map((e) => ({ label: e.ensemble_name, value: e.id })),
+]
+
+const visibleEnsembles = filter === 'sve' ? ensembles : ensembles.filter((e) => e.id === filter)
 
   function openMember(m: Member) {
     setSelected(m)
@@ -30,11 +47,23 @@ export default function MemberGroups({
   return (
     <div className="flex flex-col gap-8">
       <section>
-        <h2 className="font-serif text-lg text-ink mb-1">Radionice</h2>
+        <div className="flex items-center justify-between mb-1">
+          <h2 className="font-serif text-lg text-ink">Radionice</h2>
+          <Select items={filterItems} value={filter} onValueChange={(v) => setFilter(v ?? 'sve')}>
+            <SelectTrigger className={`${filterInputStyle} w-56`}>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className="min-w-[220px]">
+              {filterItems.map((item) => (
+                <SelectItem key={item.value} value={item.value}>{item.label}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
         <div className="h-[3px] w-14 mb-4 rounded-full bg-[repeating-linear-gradient(45deg,#B08D3F_0_5px,#7A1F2B_5px_10px)]" />
 
         <div className="flex flex-col gap-6">
-          {ensembles.map((ens) => {
+          {visibleEnsembles.map((ens) => {
             const group = members.filter((m) => m.ensemble_id === ens.id)
             return (
               <div key={ens.id}>

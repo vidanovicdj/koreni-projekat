@@ -11,7 +11,7 @@ const NAV_ITEMS: { href: string; label: string; roles: Role[] }[] = [
   { href: '/dashboard', label: 'Dashboard', roles: ['admin', 'rukovodilac', 'garderober'] },
   { href: '/members', label: 'Članovi', roles: ['admin', 'rukovodilac', 'garderober'] },
   { href: '/rehearsals', label: 'Probe', roles: ['admin','rukovodilac'] },
-  { href: '/closet', label: 'Fundus', roles: ['garderober'] },
+  { href: '/wardrobe', label: 'Fundus', roles: ['garderober'] },
   { href: '/assignments', label: 'Zaduženja', roles: ['garderober'] },
   { href: '/statistics', label: 'Statistika', roles: ['admin', 'rukovodilac'] },
   { href: '/accounts', label: 'Nalozi', roles: ['admin'] },

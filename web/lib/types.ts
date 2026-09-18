@@ -62,3 +62,38 @@ export type Attendance = {
   recorded_by: string | null
   recorded_at: string
 }
+
+export type CostumeStatus = 'dostupno' | 'zaduzeno' | 'na_popravci' | 'van_upotrebe'
+export type GenderType = 'musko' | 'zensko' | 'unisex'
+export type AssignmentStatus = 'zaduzeno' | 'vraceno'
+
+export const COSTUME_STATUS_LABELS: Record<CostumeStatus, string> = {
+  dostupno: 'Dostupno',
+  zaduzeno: 'Zaduženo',
+  na_popravci: 'Na popravci',
+  van_upotrebe: 'Van upotrebe',
+}
+
+export const GENDER_LABELS: Record<GenderType, string> = {
+  musko: 'Muško',
+  zensko: 'Žensko',
+  unisex: 'Unisex',
+}
+
+export type CostumeItem = {
+  id: string
+  costume_item_name: string
+  gender: GenderType | null
+  region: string | null
+  status: CostumeStatus
+}
+
+export type ResourceAssignment = {
+  id: string
+  costume_item_id: string
+  member_id: string
+  assigned_by: string | null
+  borrow_date: string
+  return_date: string | null
+  status: AssignmentStatus
+}
