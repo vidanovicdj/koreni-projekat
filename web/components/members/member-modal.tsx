@@ -61,6 +61,7 @@ export default function MemberModal({
       member_surname: form.member_surname,
       date_of_birth: form.date_of_birth,
       place_of_birth: form.place_of_birth,
+      gender: form.gender,
       citizen_id: form.citizen_id,
       passport_no: form.passport_no,
       admission_date: form.admission_date,

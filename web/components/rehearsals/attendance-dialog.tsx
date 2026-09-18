@@ -151,7 +151,13 @@ export default function AttendanceDialog({
                     <Input
                       className={inputStyle}
                       placeholder="Razlog odsustva"
-                      defaultValue={current?.absence_reason ?? ''}
+                      value={current?.absence_reason ?? ''}
+                      onChange={(e) =>
+                        setAttendance((prev) => ({
+                          ...prev,
+                          [m.id]: { ...prev[m.id], absence_reason: e.target.value },
+                        }))
+                      }
                       onBlur={(e) => handleReasonBlur(m.id, e.target.value)}
                       disabled={readOnly}
                     />

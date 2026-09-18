@@ -13,7 +13,7 @@ const NAV_ITEMS: { href: string; label: string; roles: Role[] }[] = [
   { href: '/rehearsals', label: 'Probe', roles: ['admin','rukovodilac'] },
   { href: '/wardrobe', label: 'Fundus', roles: ['garderober'] },
   { href: '/assignments', label: 'Zaduženja', roles: ['garderober'] },
-  { href: '/statistics', label: 'Statistika', roles: ['admin', 'rukovodilac'] },
+  { href: '/statistics', label: 'Statistika', roles: ['admin', 'rukovodilac', 'garderober'] },
   { href: '/accounts', label: 'Nalozi', roles: ['admin'] },
 ]
 
