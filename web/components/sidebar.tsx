@@ -14,7 +14,7 @@ const NAV_ITEMS: { href: string; label: string; roles: Role[] }[] = [
   { href: '/wardrobe', label: 'Fundus', roles: ['garderober'] },
   { href: '/assignments', label: 'Zaduženja', roles: ['garderober'] },
   { href: '/statistics', label: 'Statistika', roles: ['admin', 'rukovodilac', 'garderober'] },
-  { href: '/accounts', label: 'Nalozi', roles: ['admin'] },
+  //{ href: '/accounts', label: 'Nalozi', roles: ['admin'] },
 ]
 
 export default function Sidebar({ role, name }: { role: Role; name: string }) {
