@@ -24,6 +24,7 @@ export type Member = {
   member_surname: string
   date_of_birth: string | null
   place_of_birth: string | null
+  gender: PersonGender | null
   citizen_id: string | null
   residence: string | null
   passport_no: string | null
@@ -96,4 +97,11 @@ export type ResourceAssignment = {
   borrow_date: string
   return_date: string | null
   status: AssignmentStatus
+}
+
+export type PersonGender = 'musko' | 'zensko'
+
+export const PERSON_GENDER_LABELS: Record<PersonGender, string> = {
+  musko: 'Muško',
+  zensko: 'Žensko',
 }

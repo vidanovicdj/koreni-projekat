@@ -1,9 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { Search } from 'lucide-react'
+import { Search, Plus } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import MemberModal from './member-modal'
+import NewMemberDialog from './new-member-dialog'
 import { STATUS_LABELS, type Member, type Ensemble } from '@/lib/types'
 import {
   Select,
@@ -24,13 +25,16 @@ const STATUS_COLOR: Record<string, string> = {
 export default function MemberGroups({
   members,
   ensembles,
+  role,
 }: {
   members: Member[]
   ensembles: Ensemble[]
+  role: string | null
 }) {
   const [selected, setSelected] = useState<Member | null>(null)
   const [open, setOpen] = useState(false)
   const [filter, setFilter] = useState('sve')
+  const [newOpen, setNewOpen] = useState(false)
 
 const filterItems = [
   { label: 'Sve grupe', value: 'sve' },
@@ -49,16 +53,18 @@ const visibleEnsembles = filter === 'sve' ? ensembles : ensembles.filter((e) => 
       <section>
         <div className="flex items-center justify-between mb-1">
           <h2 className="font-serif text-lg text-ink">Radionice</h2>
-          <Select items={filterItems} value={filter} onValueChange={(v) => setFilter(v ?? 'sve')}>
-            <SelectTrigger className={`${filterInputStyle} w-56`}>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent className="min-w-[220px]">
-              {filterItems.map((item) => (
-                <SelectItem key={item.value} value={item.value}>{item.label}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="flex items-center gap-3">
+            <Select items={filterItems} value={filter} onValueChange={(v) => setFilter(v ?? 'sve')}>
+            </Select>
+            {role === 'admin' && (
+              <button
+                onClick={() => setNewOpen(true)}
+                className="flex items-center gap-1.5 text-sm text-wine hover:text-wine/80"
+              >
+                <Plus size={16} /> Novi član
+              </button>
+            )}
+          </div>
         </div>
         <div className="h-[3px] w-14 mb-4 rounded-full bg-[repeating-linear-gradient(45deg,#B08D3F_0_5px,#7A1F2B_5px_10px)]" />
 
@@ -118,6 +124,7 @@ const visibleEnsembles = filter === 'sve' ? ensembles : ensembles.filter((e) => 
       </section>
 
       <MemberModal member={selected} ensembles={ensembles} open={open} onOpenChange={setOpen} />
+      <NewMemberDialog ensembles={ensembles} open={newOpen} onOpenChange={setNewOpen} />
     </div>
   )
 }

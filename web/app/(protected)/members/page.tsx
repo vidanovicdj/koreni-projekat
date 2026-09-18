@@ -1,8 +1,9 @@
 import { createClient } from '@/lib/supabase/server'
-import MemberGroups from '@/components/clanovi/member-groups'
+import { getStaffRole } from '@/lib/supabase/get-staff-role'
+import MemberGroups from '@/components/members/member-groups'
 import type { Member, Ensemble } from '@/lib/types'
 
-export default async function ClanoviPage() {
+export default async function MembersPage() {
   const supabase = await createClient()
 
   const [{ data: members, error: membersError }, { data: ensembles, error: ensemblesError }] =
@@ -10,6 +11,8 @@ export default async function ClanoviPage() {
       supabase.from('members').select('*').order('member_surname'),
       supabase.from('ensembles').select('*').order('created_at'),
     ])
+
+  const role = await getStaffRole()
 
   if (membersError || ensemblesError) {
     return <p className="text-red-600">Greška pri učitavanju podataka.</p>
@@ -21,6 +24,7 @@ export default async function ClanoviPage() {
       <MemberGroups
         members={(members ?? []) as Member[]}
         ensembles={(ensembles ?? []) as Ensemble[]}
+        role = {role}
       />
     </div>
   )

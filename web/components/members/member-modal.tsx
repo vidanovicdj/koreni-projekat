@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 import { updateMember } from '@/app/(protected)/members/actions'
-import { STATUS_LABELS, DISCOUNT_LABELS, type Member, type Ensemble } from '@/lib/types'
+import { STATUS_LABELS, DISCOUNT_LABELS, type Member, type Ensemble, PERSON_GENDER_LABELS } from '@/lib/types'
 
 const inputStyle = 'border-2 border-ink/30 focus-visible:ring-wine focus-visible:ring-1'
 
@@ -102,6 +102,23 @@ export default function MemberModal({
           <div>
             <Label>Prezime</Label>
             <Input className={inputStyle} value={form.member_surname} onChange={(e) => field('member_surname', e.target.value)} />
+          </div>
+          <div>
+            <Label>Pol</Label>
+            <Select
+              items={Object.entries(PERSON_GENDER_LABELS).map(([value, label]) => ({ label, value }))}
+              value={form.gender}
+              onValueChange={(v) => field('gender', v)}
+            >
+              <SelectTrigger className={inputStyle}>
+                <SelectValue placeholder="Izaberi" />
+              </SelectTrigger>
+              <SelectContent>
+                {Object.entries(PERSON_GENDER_LABELS).map(([value, label]) => (
+                  <SelectItem key={value} value={value}>{label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           <div>
             <Label>Datum rođenja</Label>

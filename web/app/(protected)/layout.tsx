@@ -12,7 +12,7 @@ export default async function ProtectedLayout({
 
   if (!user) redirect('/login')
 
-  const { data: staff, error } = await supabase
+  const { data: staff } = await supabase
     .from('staff')
     .select('user_name, user_surname, user_role')
     .eq('id', user.id)
