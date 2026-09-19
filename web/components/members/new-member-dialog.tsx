@@ -26,6 +26,7 @@ const statusItems = Object.entries(STATUS_LABELS).map(([value, label]) => ({ lab
 
 type FormState = {
   email: string
+  password: string
   name: string
   surname: string
   dob: string
@@ -44,6 +45,7 @@ type FormState = {
 
 const initialState: FormState = {
   email: '',
+  password: '',
   name: '',
   surname: '',
   dob: '',
@@ -72,7 +74,6 @@ export default function NewMemberDialog({
   const [form, setForm] = useState<FormState>(initialState)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [inviteLink, setInviteLink] = useState<string | null>(null)
 
   const ensembleItems = ensembles.map((e) => ({ label: e.ensemble_name, value: e.id }))
 
@@ -86,8 +87,8 @@ export default function NewMemberDialog({
   }
 
   async function handleSave() {
-    if (!form.email.trim() || !form.name.trim() || !form.surname.trim()) {
-      setError('Email, ime i prezime su obavezni.')
+    if (!form.email.trim() || !form.name.trim() || !form.surname.trim() || !form.password.trim()) {
+      setError('Email, lozinka, ime i prezime su obavezni.')
       return
     }
     setSaving(true)
@@ -95,6 +96,7 @@ export default function NewMemberDialog({
 
     const result = await createMember({
       email: form.email.trim(),
+      password: form.password,
       member_name: form.name,
       member_surname: form.surname,
       date_of_birth: form.dob || null,
@@ -114,11 +116,12 @@ export default function NewMemberDialog({
     setSaving(false)
 
     if (!result.success) {
-        setError(result.message ?? 'Greška pri čuvanju.')
-        return
+      setError(result.message ?? 'Greška pri čuvanju.')
+      return
     }
 
-    setInviteLink(result.inviteLink ?? null)
+    reset()
+    onOpenChange(false)
   }
 
   return (
@@ -129,13 +132,17 @@ export default function NewMemberDialog({
         </DialogHeader>
 
         <p className="text-xs text-ink/50 -mt-1">
-          Nalog se kreira automatski — igrač dobija email sa linkom za postavljanje lozinke.
+          Postavi privremenu lozinku i prosledi je članu — prijaviće se u mobilnu app tim podacima.
         </p>
 
         <div className="grid grid-cols-3 gap-4 mt-2">
-          <div className="col-span-3">
+          <div className="col-span-2">
             <Label>Email</Label>
             <Input className={inputStyle} type="email" value={form.email} onChange={(e) => field('email', e.target.value)} />
+          </div>
+          <div>
+            <Label>Privremena lozinka</Label>
+            <Input className={inputStyle} value={form.password} onChange={(e) => field('password', e.target.value)} />
           </div>
           <div>
             <Label>Ime</Label>
@@ -148,20 +155,20 @@ export default function NewMemberDialog({
           <div>
             <Label>Pol</Label>
             <Select
-                items={Object.entries(PERSON_GENDER_LABELS).map(([value, label]) => ({ label, value }))}
-                value={form.gender}
-                onValueChange={(v) => field('gender', v)}
+              items={Object.entries(PERSON_GENDER_LABELS).map(([value, label]) => ({ label, value }))}
+              value={form.gender}
+              onValueChange={(v) => field('gender', v)}
             >
-                <SelectTrigger className={inputStyle}>
+              <SelectTrigger className={inputStyle}>
                 <SelectValue placeholder="Izaberi" />
-                </SelectTrigger>
-                <SelectContent>
+              </SelectTrigger>
+              <SelectContent>
                 {Object.entries(PERSON_GENDER_LABELS).map(([value, label]) => (
-                    <SelectItem key={value} value={value}>{label}</SelectItem>
+                  <SelectItem key={value} value={value}>{label}</SelectItem>
                 ))}
-                </SelectContent>
+              </SelectContent>
             </Select>
-            </div>
+          </div>
           <div>
             <Label>Datum rođenja</Label>
             <Input className={inputStyle} type="date" value={form.dob} onChange={(e) => field('dob', e.target.value)} />
@@ -238,33 +245,10 @@ export default function NewMemberDialog({
         {error && <p className="text-sm text-red-600 mt-2">{error}</p>}
 
         <div className="flex justify-end gap-2 mt-4">
-          {inviteLink ? (
-            <div className="mt-4 p-3 bg-sage/10 border border-sage/30 rounded-md">
-                <p className="text-sm text-ink mb-2">Nalog je kreiran. Link za postavljanje lozinke:</p>
-                <div className="flex gap-2">
-                <Input readOnly value={inviteLink} className={inputStyle} />
-                <Button
-                    onClick={() => navigator.clipboard.writeText(inviteLink)}
-                    variant="outline"
-                >
-                    Kopiraj
-                </Button>
-                </div>
-                <Button
-                className="mt-3 bg-wine hover:bg-wine/90"
-                onClick={() => { setInviteLink(null); reset(); onOpenChange(false) }}
-                >
-                Zatvori
-                </Button>
-            </div>
-            ) : (
-            <div className="flex justify-end gap-2 mt-4">
-                <Button variant="outline" onClick={() => onOpenChange(false)}>Otkaži</Button>
-                <Button onClick={handleSave} disabled={saving} className="bg-wine hover:bg-wine/90">
-                {saving ? 'Kreiranje...' : 'Pozovi člana'}
-                </Button>
-            </div>
-            )}
+          <Button variant="outline" onClick={() => onOpenChange(false)}>Otkaži</Button>
+          <Button onClick={handleSave} disabled={saving} className="bg-wine hover:bg-wine/90">
+            {saving ? 'Kreiranje...' : 'Kreiraj člana'}
+          </Button>
         </div>
       </DialogContent>
     </Dialog>

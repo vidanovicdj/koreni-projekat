@@ -21,6 +21,7 @@ export async function updateMember(id: string, updates: Partial<Member>) {
 
 export async function createMember(data: {
   email: string
+  password: string
   member_name: string
   member_surname: string
   date_of_birth: string | null
@@ -42,20 +43,19 @@ export async function createMember(data: {
   }
 
   const admin = createAdminClient()
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 
-  const { data: linkData, error: inviteError } = await admin.auth.admin.generateLink({
-    type: 'invite',
+  const { data: userData, error: createError } = await admin.auth.admin.createUser({
     email: data.email,
-    options: { redirectTo: `${siteUrl}/dobrodoslica` },
+    password: data.password,
+    email_confirm: true,
   })
 
-  if (inviteError || !linkData.user) {
-    return { success: false, message: inviteError?.message ?? 'Greška pri kreiranju naloga.' }
+  if (createError || !userData.user) {
+    return { success: false, message: createError?.message ?? 'Greška pri kreiranju naloga.' }
   }
 
   const { error: insertError } = await admin.from('members').insert({
-    id: linkData.user.id,
+    id: userData.user.id,
     member_name: data.member_name,
     member_surname: data.member_surname,
     date_of_birth: data.date_of_birth,
@@ -69,13 +69,14 @@ export async function createMember(data: {
     status: data.status,
     ensemble_id: data.ensemble_id,
     category: data.category,
+    gender: data.gender,
   })
 
   if (insertError) {
-    await admin.auth.admin.deleteUser(linkData.user.id)
+    await admin.auth.admin.deleteUser(userData.user.id)
     return { success: false, message: insertError.message }
   }
 
   revalidatePath('/members')
-  return { success: true, inviteLink: linkData.properties.action_link }
+  return { success: true }
 }
