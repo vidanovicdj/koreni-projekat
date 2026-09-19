@@ -4,6 +4,7 @@ import * as ImagePicker from 'expo-image-picker'
 import { Camera } from 'lucide-react-native'
 import { router } from 'expo-router'
 import { supabase } from '../../lib/supabase'
+import { Bell } from 'lucide-react-native'
 
 const STATUS_LABELS: Record<string, string> = {
   aktivan: 'Aktivan',
@@ -52,6 +53,24 @@ export default function ProfilScreen() {
   const [uploading, setUploading] = useState(false)
   const [member, setMember] = useState<MemberData | null>(null)
   const [userId, setUserId] = useState<string | null>(null)
+
+  const [notifications, setNotifications] = useState<any[]>([])
+
+  useEffect(() => {
+    if (!userId) return
+    supabase
+      .from('notifications')
+      .select('*')
+      .eq('member_id', userId)
+      .order('created_at', { ascending: false })
+      .limit(10)
+      .then(({ data }) => setNotifications(data ?? []))
+  }, [userId])
+
+  async function markAsRead(id: string) {
+    await supabase.from('notifications').update({ is_read: true }).eq('id', id)
+    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, is_read: true } : n)))
+  }
 
   useEffect(() => {
     load()
@@ -179,6 +198,32 @@ export default function ProfilScreen() {
         <InfoRow label="Popust na članarinu" value={DISCOUNT_LABELS[member.category] ?? ''} />
         <InfoRow label="Grupa" value={member.ensembles?.ensemble_name ?? ''} />
       </View>
+
+      {notifications.length > 0 && (
+        <View className="w-full mb-6">
+          <Text className="text-ink text-sm mb-3" style={{ fontFamily: 'Fraunces_500Medium' }}>
+            Notifikacije
+          </Text>
+          <View className="gap-2">
+            {notifications.map((n) => (
+              <Pressable
+                key={n.id}
+                onPress={() => markAsRead(n.id)}
+                className="bg-white border rounded-md p-3 flex-row gap-2"
+                style={{ borderColor: n.is_read ? '#DCD3C0' : '#B08D3F' }}
+              >
+                <Bell color={n.is_read ? '#8a8378' : '#7A1F2B'} size={16} />
+                <View className="flex-1">
+                  <Text className="text-ink text-sm">{n.notification_subject}</Text>
+                  {n.notification_text && (
+                    <Text className="text-xs mt-0.5" style={{ color: '#8a8378' }}>{n.notification_text}</Text>
+                  )}
+                </View>
+              </Pressable>
+            ))}
+          </View>
+        </View>
+      )}
 
       <Pressable
         onPress={handleLogout}

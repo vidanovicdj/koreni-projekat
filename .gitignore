@@ -4,6 +4,10 @@ node_modules/
 .expo/
 dist/
 
+# Push
+firebase-service-account.json
+google-services.json
+
 # Env fajlovi
 .env
 .env.local

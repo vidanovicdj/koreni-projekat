@@ -1,7 +1,12 @@
 import { Tabs } from 'expo-router'
 import { LayoutDashboard, Calendar, Shirt, User } from 'lucide-react-native'
+import { useEffect } from 'react'
+import { registerForPushNotifications } from '../../lib/notifications'
 
 export default function TabsLayout() {
+  useEffect(() => {
+    registerForPushNotifications()
+  }, [])
   return (
     <Tabs
       screenOptions={{

@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { sendPushNotification } from '@/lib/push'
 import { revalidatePath } from 'next/cache'
 
 export async function createAssignment(costume_item_id: string, member_id: string) {
@@ -23,6 +24,32 @@ export async function createAssignment(costume_item_id: string, member_id: strin
     .eq('id', costume_item_id)
 
   if (itemError) return { success: false, message: itemError.message }
+
+  const { data: member } = await supabase
+    .from('members')
+    .select('push_token')
+    .eq('id', member_id)
+    .single()
+
+  const { data: item } = await supabase
+    .from('costume_items')
+    .select('costume_item_name')
+    .eq('id', costume_item_id)
+    .single()
+
+  await supabase.from('notifications').insert({
+    member_id,
+    notification_subject: 'Novi kostim zadužen',
+    notification_text: `Zadužen je scenski kostim: ${item?.costume_item_name ?? 'komad iz fundusa'}`,
+  })
+
+  if (member?.push_token) {
+    await sendPushNotification(
+      member.push_token,
+      'Novi kostim zadužen',
+      `Zadužen je scenski kostim: ${item?.costume_item_name ?? 'komad iz fundusa'}`
+    )
+  }
 
   revalidatePath('/assignments')
   revalidatePath('/wardrobe')

@@ -1,0 +1,1 @@
+alter table members add column push_token text;

@@ -13,6 +13,7 @@
     },
     "android": {
       "package": "rs.koreni.mobile",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/android-icon-foreground.png",
@@ -28,7 +29,21 @@
       "expo-router",
       "expo-status-bar",
       "expo-font",
-      "expo-splash-screen"
-    ]
+      "expo-splash-screen",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icon.png",
+          "color": "#7A1F2B"
+        }
+      ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "4011b916-bd3e-46b7-9f74-3ed55ff1e280"
+      }
+    },
+    "owner": "vidanovicdj"
   }
 }
