@@ -1,4 +1,4 @@
-# [Naziv projekta]
+# Informacioni sistem za udruženje građana u oblasti kulture
 
 E-poslovni sistem za digitalizaciju rada udruženja građana u oblasti kulture: evidencija članova, zakazivanje proba i prisustva, zaduživanje nošnji iz fundusa i statistika. Sastoji se od mobilne aplikacije za članove i veb portala za administraciju.
 
