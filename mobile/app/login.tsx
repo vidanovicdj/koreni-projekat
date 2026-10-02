@@ -27,7 +27,7 @@ export default function LoginScreen() {
       <View className="bg-ink rounded-xl px-8 py-10 w-full max-w-sm items-center gap-4">
         <View className="h-1 w-28 rounded-full" style={{ backgroundColor: '#B08D3F' }} />
         <Text className="text-2xl text-linen" style={{ fontFamily: 'Fraunces_500Medium' }}>
-          Igračko udruženje
+          CNKN "Koreni"
         </Text>
         <View className="w-full gap-3 mt-2">
           <TextInput

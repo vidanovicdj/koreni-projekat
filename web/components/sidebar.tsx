@@ -33,7 +33,7 @@ export default function Sidebar({ role, name }: { role: Role; name: string }) {
   return (
     <aside className="w-52 bg-ink flex flex-col py-5">
       <div className="px-4 mb-4">
-        <p className="font-serif text-linen text-base">Igračko udruženje</p>
+        <p className="font-serif text-linen text-base">CNKN "Koreni"</p>
       </div>
       <div className="h-[3px] w-14 mx-4 mb-4 rounded-full bg-[repeating-linear-gradient(45deg,#B08D3F_0_5px,#7A1F2B_5px_10px)]" />
       <nav className="flex flex-col gap-1 flex-1">

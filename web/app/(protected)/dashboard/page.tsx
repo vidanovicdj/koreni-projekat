@@ -70,7 +70,7 @@ export default async function DashboardPage() {
   return (
     <div className="flex flex-col gap-10">
       <div>
-        <h1 className="font-serif text-xl text-ink mb-1">Dobrodošla, {greetName}</h1>
+        <h1 className="font-serif text-xl text-ink mb-1">Dobro došli, {greetName}</h1>
         <div className="h-[3px] w-14 rounded-full bg-[repeating-linear-gradient(45deg,#B08D3F_0_5px,#7A1F2B_5px_10px)]" />
       </div>
 
